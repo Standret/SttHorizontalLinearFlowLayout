@@ -4,19 +4,37 @@ using CoreAnimation;
 using CoreGraphics;
 using UIKit;
 
-namespace SttHorizontalLinearFlowLayout
+namespace Stt.IOS.UIComponnents
 {
-    public class SttHorizontalLinearFlowLayout : UICollectionViewFlowLayout
+    /// <summary>
+    /// Flow layout with resizable items effect for CollectionView
+    /// </summary>
+    public class HorizontalLinearFlowLayout : UICollectionViewFlowLayout
     {
         private CGSize lastCollectionViewSize = CGSize.Empty;
 
         public nfloat ScalingOffset { get; set; } = 200;
+        /// <summary>
+        /// Minimum scale of items, default 0.9
+        /// </summary>
         public nfloat MinimumScaleFactor { get; set; } = 0.9f;
+        /// <summary>
+        /// True if you wonna use scale effect
+        /// </summary>
         public bool ScaleItems { get; set; } = true;
 
-        public static SttHorizontalLinearFlowLayout ConfigureLayout(UICollectionView collectionView, CGSize itemSize, nfloat minimumLineSpacig)
+        private HorizontalLinearFlowLayout() { }
+
+        /// <summary>
+        /// Methof return instance of SttHorizontalLinearFlowLayout and set itself into CollectionViewLayout
+        /// </summary>
+        /// <returns>The layout.</returns>
+        /// <param name="collectionView">Target collection view.</param>
+        /// <param name="itemSize">Maximum item size.</param>
+        /// <param name="minimumLineSpacig">Minimum line spacig.</param>
+        public static HorizontalLinearFlowLayout ConfigureLayout(UICollectionView collectionView, CGSize itemSize, nfloat minimumLineSpacig)
         {
-            var layout = new SttHorizontalLinearFlowLayout();
+            var layout = new HorizontalLinearFlowLayout();
             layout.ScrollDirection = UICollectionViewScrollDirection.Horizontal;
             layout.MinimumLineSpacing = minimumLineSpacig;
             layout.ItemSize = itemSize;
@@ -40,16 +58,6 @@ namespace SttHorizontalLinearFlowLayout
                     ConfigureInset();
                     lastCollectionViewSize = currentCollectionViewSize;
                 }
-            }
-        }
-
-        private void ConfigureInset()
-        {
-            if (CollectionView != null)
-            {
-                var inset = CollectionView.Bounds.Size.Width / 2 - ItemSize.Width / 2;
-                CollectionView.ContentInset = new UIEdgeInsets(0, inset, 0, inset);
-                CollectionView.ContentOffset = new CGPoint(-inset, 0);
             }
         }
 
@@ -136,6 +144,16 @@ namespace SttHorizontalLinearFlowLayout
             }
 
             return newAttributeArray.ToArray();
+        }
+
+        private void ConfigureInset()
+        {
+            if (CollectionView != null)
+            {
+                var inset = CollectionView.Bounds.Size.Width / 2 - ItemSize.Width / 2;
+                CollectionView.ContentInset = new UIEdgeInsets(0, inset, 0, inset);
+                CollectionView.ContentOffset = new CGPoint(-inset, 0);
+            }
         }
     }
 }
